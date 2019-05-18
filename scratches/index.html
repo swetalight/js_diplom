@@ -24,52 +24,43 @@
 <script>
 
   // Вызываем промис
+  const schemas = [
+    [
+      '         ',
+      '         ',
+      '    =    ',
+      '       o ',
+      '     !xxx',
+      ' @       ',
+      'xxx!     ',
+      '         '
+    ],
+    [
+      '      v  ',
+      '    v    ',
+      '  v      ',
+      '        o',
+      '        x',
+      '@   x    ',
+      'x        ',
+      '         '
+    ]
+  ];
+  const actorDict = {
+    '@': Player,
+    'v': FireRain,
+    '=': HorizontalFireball,
+    '|': VerticalFireball,
+    'o': Coin
+  };
 
-
-  const Promise
-
-  // const schemas = [
-  //   [
-  //     '         ',
-  //     '         ',
-  //     '    =    ',
-  //     '       o ',
-  //     '     !xxx',
-  //     ' @       ',
-  //     'xxx!     ',
-  //     '         '
-  //   ],
-  //   [
-  //     '      v  ',
-  //     '    v    ',
-  //     '  v      ',
-  //     '        o',
-  //     '        x',
-  //     '@   x    ',
-  //     'x        ',
-  //     '         '
-  //   ]
-  // ];
-  // const actorDict = {
-  //   '@': Player,
-  //   'v': FireRain,
-  //   '=': HorizontalFireball,
-  //   '|': VerticalFireball,
-  //   'o': Coin
-  // };
-  //
-  // const parser = new LevelParser(actorDict);
-  // runGame(schemas, parser, DOMDisplay)
-  //         .then(() => console.log('Вы выиграли приз!'));
+  const parser = new LevelParser(actorDict);
+  runGame(schemas, parser, DOMDisplay)
+          .then(() => console.log('Вы выиграли приз!'));
 
 
 </script>
 
 
-
-
-
-  <!--<script src="./js/app.js"></script>-->
-  <!--<script src="./game.js"></script>-->
 </body>
 </html>
