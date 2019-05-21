@@ -1,7 +1,6 @@
 'use strict';
 
 
-
 class Actor {
     pos;
     size;
@@ -55,6 +54,7 @@ class Actor {
             this.top < actor.bottom &&
             this.bottom > actor.top;
     }
+
     act() {
 
     }
@@ -90,30 +90,26 @@ class Fireball extends Actor {
 }
 
 
-
 class Vector {
     x;
     y;
 
-    constructor(x = 0, y = 0){
+    constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
     }
 
-    plus (vector){
-        if (vector instanceof Vector === false){
+    plus(vector) {
+        if (vector instanceof Vector === false) {
             throw new Error("Можно прибавлять к вектору только вектор типа Vector");
         }
         return new Vector(this.x + vector.x, this.y + vector.y);
     }
 
-    times(number){
+    times(number = 1) {
         return new Vector(this.x * number, this.y * number);
     }
 }
-
-
-
 
 
 class Level {
@@ -137,7 +133,8 @@ class Level {
         this.status = null;
         this.finishDelay = 1;
     }
-    isFinished(){
+
+    isFinished() {
         return this.status != null && this.finishDelay < 0;
     }
 
@@ -148,8 +145,7 @@ class Level {
 
         if (!this.actors) {
             return undefined;
-        }
-        else {
+        } else {
             return this.actors.find(a => a.isIntersect(actor));
         }
     }
@@ -159,24 +155,21 @@ class Level {
         if (!(pos instanceof Vector) || !(size instanceof Vector)) {
             throw new Error(`В качестве аргумента можно передавать только вектор типа Vector`);
         }
-        const leftBorder = Math.floor(pos.x);
-        const rightBorder = Math.ceil(pos.x + size.x);
-        const topBorder = Math.floor(pos.y);
-        const bottomBorder = Math.ceil(pos.y + size.y);
 
-        if (leftBorder < 0 || rightBorder > this.width || topBorder < 0) {
-            return 'wall';
-        }
-        if (bottomBorder > this.height) {
-            return 'lava';
+
+        if (pos.y + size.y > this.height) {
+            return 'LAVA';
         }
 
-        for (let i = topBorder; i < bottomBorder; i++) {
-            for (let j = leftBorder; j < rightBorder; j++) {
+        if ((pos.y < 0) || (pos.x < 0) || (pos.x + size.x > this.width)) {
+            return 'WALL';
+        }
+
+
+        for (let i = Math.floor(pos.y); i <= Math.ceil(pos.y + size.y) - 1; i++) {
+            for (let j = Math.floor(pos.x); j <= Math.ceil(pos.x + size.x) - 1; j++) {
                 if (this.grid[i][j]) {
                     return this.grid[i][j];
-                } else {
-                    return undefined;
                 }
             }
         }
@@ -270,9 +263,6 @@ class LevelParser {
 }
 
 
-
-
-
 class HorizontalFireball extends Fireball {
     constructor(pos) {
         super(pos);
@@ -289,8 +279,6 @@ class VerticalFireball extends Fireball {
         this.size = new Vector(1, 1);
     }
 }
-
-
 
 
 class Coin extends Actor {
@@ -325,9 +313,8 @@ class Coin extends Actor {
 }
 
 
-
 class Player extends Actor {
-    constructor(pos) {
+    constructor(pos = new Vector(0, 0)) {
         super(pos);
         this.pos = this.pos.plus(new Vector(0, -0.5));
         this.size = new Vector(0.8, 1.5);
@@ -338,7 +325,6 @@ class Player extends Actor {
         return 'player';
     }
 }
-
 
 
 class FireRain extends Fireball {
@@ -353,8 +339,6 @@ class FireRain extends Fireball {
         this.pos = this.currentPos;
     }
 }
-
-
 
 
 // Вызываем промис
