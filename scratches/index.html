@@ -9,57 +9,9 @@
 </head>
 <body>
 
-<script src="js/actor.js"></script>
-<script src="js/fireball.js"></script>
-<script src="js/client.js"></script>
-<script src="js/vector.js"></script>
-<script src="js/level.js"></script>
-<script src="js/level_parser.js"></script>
-<script src="js/horizontal_fireball.js"></script>
-<script src="js/vertical_fireball.js"></script>
-<script src="js/coin.js"></script>
-<script src="js/player.js"></script>
-<script src="js/fire_rain.js"></script>
-<script src="js/app.js"></script>
-<script>
+<script src="https://netology-code.github.io/js-game/js/app.js"></script>
+<script src="game.js"></script>
 
-  // Вызываем промис
-  const schemas = [
-    [
-      '         ',
-      '         ',
-      '    =    ',
-      '       o ',
-      '     !xxx',
-      ' @       ',
-      'xxx!     ',
-      '         '
-    ],
-    [
-      '      v  ',
-      '    v    ',
-      '  v      ',
-      '        o',
-      '        x',
-      '@   x    ',
-      'x        ',
-      '         '
-    ]
-  ];
-  const actorDict = {
-    '@': Player,
-    'v': FireRain,
-    '=': HorizontalFireball,
-    '|': VerticalFireball,
-    'o': Coin
-  };
-
-  const parser = new LevelParser(actorDict);
-  runGame(schemas, parser, DOMDisplay)
-          .then(() => console.log('Вы выиграли приз!'));
-
-
-</script>
 
 
 </body>

@@ -1,5 +1,6 @@
 'use strict';
 
+
 function loadLevels() {
   return new Promise((done, fail) => {
     const xhr = new XMLHttpRequest();
@@ -31,7 +32,6 @@ function elt(name, className) {
   if (className) elt.className = className;
   return elt;
 }
-
 class DOMDisplay {
   constructor(parent, level) {
     this.wrap = parent.appendChild(elt("div", "game"));
@@ -56,6 +56,7 @@ class DOMDisplay {
     });
     return table;
   }
+
 
   drawActor(actor) {
     return elt('div', `actor ${actor.type}`);
@@ -248,8 +249,7 @@ function initGameObjects() {
     }
   };
 }
-
-function runGame(plans, Parser, Display) {
+ function runGame(plans, Parser, Display) {
   return new Promise(done => {
     function startLevel(n) {
       runLevel(Parser.parse(plans[n]), Display)
