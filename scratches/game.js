@@ -152,27 +152,30 @@ class Level {
 
 
     obstacleAt(pos, size) {
+
         if (!(pos instanceof Vector) || !(size instanceof Vector)) {
-            throw new Error(`В качестве аргумента можно передавать только вектор типа Vector`);
+            throw new Error('В obstacleAt() передан объект другого типа');
+        }
+        let obj = new Actor(pos, size);
+        if (obj.left < 0 || obj.right > this.width || obj.top < 0) {
+            return 'wall';
+        } else if (obj.bottom > this.height) {
+            return 'lava';
         }
 
+        let left = Math.floor(obj.left);
+        let right = Math.ceil(obj.right);
+        let top = Math.floor(obj.top);
+        let bottom = Math.ceil(obj.bottom);
 
-        if (pos.y + size.y > this.height) {
-            return 'LAVA';
-        }
-
-        if ((pos.y < 0) || (pos.x < 0) || (pos.x + size.x > this.width)) {
-            return 'WALL';
-        }
-
-
-        for (let i = Math.floor(pos.y); i <= Math.ceil(pos.y + size.y) - 1; i++) {
-            for (let j = Math.floor(pos.x); j <= Math.ceil(pos.x + size.x) - 1; j++) {
-                if (this.grid[i][j]) {
-                    return this.grid[i][j];
+        for (let y = top; y < bottom; y++) {
+            for (let x = left; x < right; x++) {
+                if (this.grid[y][x]) {
+                    return this.grid[y][x];
                 }
             }
         }
+
     }
 
 
