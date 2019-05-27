@@ -1,12 +1,13 @@
 'use strict';
 
-
 class Actor {
     pos;
     size;
     speed;
 
     constructor(pos = new Vector(0, 0), size = new Vector(1, 1), speed = new Vector(0, 0)) {
+
+
         if (pos instanceof Vector === false) {
             throw new Error("position должен быть типом Vector")
         } else if (size instanceof Vector === false) {
@@ -18,7 +19,6 @@ class Actor {
         this.size = size;
         this.speed = speed;
     }
-
     act() {
     }
 
@@ -43,12 +43,14 @@ class Actor {
     }
 
     isIntersect(actor) {
+
         if (actor instanceof Actor === false || actor === "undefined") {
             throw new Error("Параметр actor должен быть типом Actor и не должен быть пустым");
         }
         if (actor === this) {
             return false;
         }
+
         return this.right > actor.left &&
             this.left < actor.right &&
             this.top < actor.bottom &&
@@ -64,6 +66,8 @@ class Actor {
 
 class Fireball extends Actor {
     constructor(pos = new Vector(0, 0), speed = new Vector(0, 0)) {
+
+
         super(pos, new Vector(1, 1), speed);
     }
 
@@ -153,29 +157,39 @@ class Level {
 
     obstacleAt(pos, size) {
 
+
         if (!(pos instanceof Vector) || !(size instanceof Vector)) {
-            throw new Error('В obstacleAt() передан объект другого типа');
+            throw new Error('В obstacleAt передан объект другого типа');
         }
         let obj = new Actor(pos, size);
+
         if (obj.left < 0 || obj.right > this.width || obj.top < 0) {
-            return 'wall';
-        } else if (obj.bottom > this.height) {
+             return 'wall';
+        }
+
+        if (obj.bottom > this.height) {
             return 'lava';
         }
 
         let left = Math.floor(obj.left);
-        let right = Math.ceil(obj.right);
+        let right = Math.ceil(obj.right) ;
+
+
+
         let top = Math.floor(obj.top);
         let bottom = Math.ceil(obj.bottom);
 
-        for (let y = top; y < bottom; y++) {
+        for (let y = top; y < bottom ; y++) {
             for (let x = left; x < right; x++) {
+                if ( x > 1){
+                    x = x + 1;
+                }
                 if (this.grid[y][x]) {
+
                     return this.grid[y][x];
                 }
             }
         }
-
     }
 
 
@@ -319,7 +333,7 @@ class Coin extends Actor {
 class Player extends Actor {
     constructor(pos = new Vector(0, 0)) {
         super(pos);
-        this.pos = this.pos.plus(new Vector(0, -0.5));
+        this.pos = this.pos.plus(new Vector(0, - 0.5));
         this.size = new Vector(0.8, 1.5);
         this.speed = new Vector(0, 0);
     }
@@ -347,14 +361,14 @@ class FireRain extends Fireball {
 // Вызываем промис
 const schemas = [
     [
-        '         ',
-        '         ',
-        '    =    ',
-        '       o ',
-        '     !xxx',
-        ' @       ',
-        'xxx!     ',
-        '         '
+        '           ',
+        '           ',
+        '    =      ',
+        '         o ',
+        '       !xxx',
+        '  @        ',
+        '!xxxx!     ',
+        '           '
     ],
     [
         '      v  ',
@@ -367,6 +381,8 @@ const schemas = [
         '         '
     ]
 ];
+
+
 const actorDict = {
     '@': Player,
     'v': FireRain,

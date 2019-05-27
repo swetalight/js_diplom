@@ -1,5 +1,6 @@
-'use strict';
 
+
+'use strict';
 
 function loadLevels() {
   return new Promise((done, fail) => {
@@ -32,6 +33,7 @@ function elt(name, className) {
   if (className) elt.className = className;
   return elt;
 }
+
 class DOMDisplay {
   constructor(parent, level) {
     this.wrap = parent.appendChild(elt("div", "game"));
@@ -57,14 +59,13 @@ class DOMDisplay {
     return table;
   }
 
-
   drawActor(actor) {
     return elt('div', `actor ${actor.type}`);
   }
 
   updateActor(actor, rect) {
     rect.style.width = actor.size.x * scale + "px";
-    rect.style.height = actor.size.y * scale + "px";
+    rect.style.height = actor.size.y * scale  + "px";
     rect.style.left = actor.pos.x * scale + "px";
     rect.style.top = actor.pos.y * scale + "px";
   }
@@ -110,7 +111,7 @@ class DOMDisplay {
       return;
     }
     var center = player.pos.plus(player.size.times(0.5))
-                   .times(scale);
+        .times(scale);
 
     if (center.x < left + margin)
       this.wrap.scrollLeft = center.x - margin;
@@ -214,6 +215,7 @@ function initGameObjects() {
   Player.prototype.move = function (motion, level) {
     var newPos = this.pos.plus(motion);
     var obstacle = level.obstacleAt(newPos, this.size);
+
     if (obstacle) {
       level.playerTouched(obstacle);
       this.handleObstacle(obstacle);
@@ -249,19 +251,20 @@ function initGameObjects() {
     }
   };
 }
- function runGame(plans, Parser, Display) {
+
+function runGame(plans, Parser, Display) {
   return new Promise(done => {
     function startLevel(n) {
       runLevel(Parser.parse(plans[n]), Display)
-        .then(status => {
-          if (status == "lost") {
-            startLevel(n);
-          } else if (n < plans.length - 1) {
-            startLevel(n + 1);
-          } else {
-            done();
-          }
-        });
+          .then(status => {
+            if (status == "lost") {
+              startLevel(n);
+            } else if (n < plans.length - 1) {
+              startLevel(n + 1);
+            } else {
+              done();
+            }
+          });
     }
     startLevel(0);
   });
@@ -270,3 +273,4 @@ function initGameObjects() {
 function rand(max = 10, min = 0) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
